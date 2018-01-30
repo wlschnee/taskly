@@ -1,0 +1,20 @@
+{
+  "name": "taskly",
+  "version": "1.0.0",
+  "description": "Taskly - get stuff done",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "todo"
+  ],
+  "author": "Will Schneekloth",
+  "license": "ISC",
+  "dependencies": {
+    "redux": "^3.7.2"
+  }
+}

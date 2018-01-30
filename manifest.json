@@ -1,0 +1,7 @@
+{
+  "name": "taskly",
+  "short_name": "taskly",
+  "description": "Taskly - get thigns done",
+  "start_url": "/",
+  "display": "standalone"
+}

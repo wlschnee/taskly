@@ -1,0 +1,61 @@
+<link rel="import" href="../bower_components/polymer-redux/polymer-redux.html">
+<link rel="import" href="../bower_components/polymer/lib/elements/dom-repeat.html">
+
+<!-- <script src="../redux/reducers/index.js"></script> -->
+<script src="../node_modules/redux/dist/redux.js"></script>
+
+<script>
+  // import tasklyReducers from '../redux/reducers/index.js'
+  
+  const initialUser = {
+    username: 'there',
+    message: 'Let\'s get stuff done',
+  };
+
+  const makeTaskId = function() {
+    return 'T0000' + Math.random().toString(36).substr(2, 5);
+  }
+
+  const initialTasks = [
+      {
+        id: makeTaskId(),
+        text: 'Take the Taslky tour',
+        complete: false
+      },
+      {
+        id: makeTaskId(),
+        text: 'Make your first todo',
+        complete: false
+      }
+    ]
+
+  const tasks = (state = initialTasks, action) => {
+    switch (action.type) {
+      case 'ADD_TASK':
+        return [
+          ...state,
+          {
+            id: makeTaskId(),
+            text: action.text,
+            complete: false
+          }
+        ]
+      case 'TOGGLE_TASK':
+        return state.map(task => 
+           (task.id === action.id) 
+            ? {...task, complete: !task.complete}
+            : task
+        );
+      default:
+        return state;
+    }
+  }
+
+  const user = (state = initialUser, action) => {
+    return state;
+  }
+  const reducers = Redux.combineReducers({tasks, user});
+  const store = Redux.createStore(reducers);
+
+  ReduxMixin = PolymerRedux(store);
+</script>

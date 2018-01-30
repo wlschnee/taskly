@@ -1,0 +1,64 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../redux-mixin.html">
+
+<dom-module id="taskly-app">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <h1>{{message}}</h1>
+    <paper-input label="New task" id="input"></paper-input>
+    <paper-button on-tap="addTask">Add task</paper-button>
+    <template is="dom-repeat" items="{{tasks}}">
+      <p><paper-checkbox checked$=[[item.complete]] on-change="checkChanged"></paper-checkbox>{{item.text}}</p>
+    </template>
+  </template>
+
+  <script>
+    /**
+     * @customElement
+     * @polymer
+     */
+    class TasklyApp extends ReduxMixin(Polymer.Element) {
+      static get is() { return 'taskly-app'; }
+      static get properties() {
+        return {
+          tasks: {
+            type: Array,
+            statePath(state) {
+              return state.tasks
+            }
+          },
+          message: {
+            type: String,
+            statePath(state) {
+              return `Hi ${state.user.username}, ${state.user.message}!`
+            }
+          }
+        }
+      }
+      checkChanged(event) {
+        const todoId = event.model.item.id;
+        this.dispatch({
+          type: 'TOGGLE_TASK',
+          id: todoId
+        })
+      }
+      addTask() {
+        this.dispatch({
+          type: 'ADD_TASK',
+          text: this.$.input.value
+        })
+        this.$.input.value = ''
+      }
+    }
+
+    window.customElements.define(TasklyApp.is, TasklyApp);
+  </script>
+</dom-module>
